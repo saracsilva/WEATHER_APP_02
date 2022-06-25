@@ -16,7 +16,7 @@ function displayForecast(response) {
         forecastHTML +
         `  <div class="col-2 daysOfweek">
               <div class="weekDay02">${formatDay(forecastDay.dt)}</div>
-             <span class="strong">  ${Math.round(
+             <span class="strong tempMax" id="tempMax">  ${Math.round(
                forecastDay.temp.max
              )}º </span>|  ${Math.round(forecastDay.temp.min)}º <br>
               <img
@@ -82,9 +82,10 @@ function formatDate(time) {
 }
 
 function showTemperature(response) {
+  celsiusTemperature = response.data.main.temp;
   document.querySelector("#city").innerHTML = response.data.name;
   document.querySelector("#temperature").innerHTML = `${Math.round(
-    response.data.main.temp
+    celsiusTemperature
   )}º`;
   console.log(response.data);
   document.querySelector("#descriptionDay").innerHTML =
@@ -122,8 +123,37 @@ function handleSubmit(event) {
   let cityInputElement = document.querySelector("#city-search");
   searchCity(cityInputElement.value);
 }
+function showFahrenheitTemperature(event) {
+  event.preventDefault();
+  let temperatureElement = document.querySelector("#temperature");
+  let fahrenheitTemperature = (celsiusTemperature * 9) / 5 + 32;
+  temperatureElement.innerHTML = `${Math.round(fahrenheitTemperature)}º`;
+
+
+let forecastElementFahrenheit = document.querySelector("#forecast");
+forecastElementFahrenheit.forEach(function("#tempMax")){
+  forecastElementFahrenheit = (celsiusTemperature * 9) / 5 + 32;
+
+}
+
+
+
+
+
+}
+function showCelsiusTemperature(event) {
+  event.preventDefault();
+  let currentCity = document.querySelector("#city").innerHTML;
+  searchCity(currentCity);
+}
+
+let celsiusTemperature = null;
 
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
 
+let fahrenheitLink = document.querySelector("#fahrenheit");
+fahrenheitLink.addEventListener("click", showFahrenheitTemperature);
+let celsiusLink = document.querySelector("#celsius");
+celsiusLink.addEventListener("click", showCelsiusTemperature);
 searchCity("Hengelo");
