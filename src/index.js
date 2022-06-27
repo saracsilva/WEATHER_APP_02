@@ -1,3 +1,6 @@
+let currentUnit;
+searchCity("Hengelo");
+
 function formatDay(time) {
   let date = new Date(time * 1000);
   let day = date.getDay();
@@ -20,9 +23,7 @@ function displayForecast(response) {
                forecastDay.temp.max
              )}º </span>|  ${Math.round(forecastDay.temp.min)}º <br>
               <img
-          src="http://openweathermap.org/img/wn/${
-            forecastDay.weather[0].icon
-          }@2x.png"
+          src="src/img/${forecastDay.weather[0].icon}.png"
           alt=""
           width="42"
         /></div>
@@ -36,7 +37,7 @@ function displayForecast(response) {
 
 function getForecast(coordinates) {
   let apiKey = "df0c7cf829e270572999fe0fa2793ff1";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=${currentUnit}`;
   axios.get(apiUrl).then(displayForecast);
 }
 
@@ -102,7 +103,7 @@ function showTemperature(response) {
   let iconElement = document.querySelector("#iconCurrentDay");
   iconElement.setAttribute(
     "src",
-    `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+    `src/img/${response.data.weather[0].icon}.png`
   );
   iconElement.setAttribute("alt", response.data.weather[0].description);
 
@@ -111,9 +112,9 @@ function showTemperature(response) {
 
 function searchCity(city) {
   let apiKey = "df0c7cf829e270572999fe0fa2793ff1";
-  let unitTemp = "metric";
+  let currentUnit = getUnit();
   let apiEndPoint = "https://api.openweathermap.org/";
-  let apiUrl = `${apiEndPoint}data/2.5/weather?q=${city}&appid=${apiKey}&units=${unitTemp}`;
+  let apiUrl = `${apiEndPoint}data/2.5/weather?q=${city}&appid=${apiKey}&units=${currentUnit}`;
   console.log(apiUrl);
   axios.get(apiUrl).then(showTemperature);
 }
@@ -123,28 +124,33 @@ function handleSubmit(event) {
   let cityInputElement = document.querySelector("#city-search");
   searchCity(cityInputElement.value);
 }
-function showFahrenheitTemperature(event) {
-  event.preventDefault();
-  let temperatureElement = document.querySelector("#temperature");
-  let fahrenheitTemperature = (celsiusTemperature * 9) / 5 + 32;
-  temperatureElement.innerHTML = `${Math.round(fahrenheitTemperature)}º`;
-
-
-let forecastElementFahrenheit = document.querySelector("#forecast");
-forecastElementFahrenheit.forEach(function("#tempMax")){
-  forecastElementFahrenheit = (celsiusTemperature * 9) / 5 + 32;
-
-}
-
-
-
-
-
-}
 function showCelsiusTemperature(event) {
   event.preventDefault();
-  let currentCity = document.querySelector("#city").innerHTML;
-  searchCity(currentCity);
+  currentUnit = `metric`;
+  celsiusLink.classList.add("active");
+  fahrenheitLink.classList.remove("active");
+  let city = document.querySelector("#city").innerHTML;
+  searchCity(city);
+}
+function showFahrenheitTemperature(event) {
+  event.preventDefault();
+
+  currentUnit = `imperial`;
+  celsiusLink.classList.remove("active");
+  fahrenheitLink.classList.add("active");
+  let city = document.querySelector("#city").innerHTML;
+
+  searchCity(city);
+}
+
+function getUnit() {
+  let unitType = document.querySelector("#celsius");
+  if (unitType.className === "unitsLink active") {
+    currentUnit = "metric";
+  } else {
+    currentUnit = "imperial";
+  }
+  return currentUnit;
 }
 
 let celsiusTemperature = null;
@@ -152,8 +158,8 @@ let celsiusTemperature = null;
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
 
-let fahrenheitLink = document.querySelector("#fahrenheit");
-fahrenheitLink.addEventListener("click", showFahrenheitTemperature);
 let celsiusLink = document.querySelector("#celsius");
 celsiusLink.addEventListener("click", showCelsiusTemperature);
-searchCity("Hengelo");
+
+let fahrenheitLink = document.querySelector("#fahrenheit");
+fahrenheitLink.addEventListener("click", showFahrenheitTemperature);

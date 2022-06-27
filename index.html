@@ -37,19 +37,20 @@
               type="submit"
               id="button-addon2"
             >
-              <i class="bi bi-search" id="teste"></i>
+              <i class="bi bi-search" ></i>
             </button>
           
           </div>
         </form>
           <div class="row headTop">
             <div class="col-6">
-              <h1 id="temperature">25º</h1>
+              <h1 id="temperature"></h1>
                  <span class="units">
-              <button type="button" class="btn btn-outline-secondary tempBtn" id="fahrenheit">ºF</button>
-               <button type="button" class="btn btn-outline-secondary tempBtn" id="celsius">ºC</button>
-              </span>
-              <h2 class="city" id="city">Hengelo</h2>
+              <button type="button" class="btn btn-outline-secondary tempBtn" > <span class=""><a href="#" class="unitsLink active"  id="celsius">ºC</a></span></button>
+              
+                  <button type="button" class="btn btn-outline-secondary tempBtn" > <span><a href="#" class="unitsLink" id="fahrenheit"> ºF</a></span></button>
+               </span>
+              <h2 class="city" id="city"></h2>
               <span id="currentDay">
               
             </span>
@@ -70,7 +71,10 @@
         <footer>
             <div class="weather-forecast" id="forecast"></div>
         </footer>
+      
       </div>
+      <span class="codeBy">
+      <a href="https://github.com/saracsilva/WEATHER_APP_02" target="_blank"> Open-Source code</a>, by <a href="https://www.linkedin.com/in/sara-carolina-silva-aa82884a/" target="_blank"> Sara Silva</a></span>
     </div>
     <script src="src/index.js" type="">
   </body>
